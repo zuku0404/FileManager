@@ -1,3 +1,5 @@
+package type_definders;
+
 public enum ExtensionType {
     DOC ("doc"),
     PDF ("pdf"),

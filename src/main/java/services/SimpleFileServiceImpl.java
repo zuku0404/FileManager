@@ -1,12 +1,22 @@
+package ports;
+
+import services.IFileService;
+import type_definders.ExtensionType;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FileManagerImpl<T extends FileType> implements FileManager {
+public class SimpleFileServiceImpl implements IFileService {
+    private List<ExtensionType> extensionTypes;
+
+    public SimpleFileServiceImpl(List<ExtensionType> extensionTypes){
+        this.extensionTypes = extensionTypes;
+    }
 
     @Override
-    public void download(String name, String sourcePath, String targetPath) {
+    public void getByName (String name, String sourcePath, String targetPath) {
         Optional<File> file = findByName(name, sourcePath);
         File targetFile = new File(targetPath);
         if (file.isPresent() && targetFile.exists()) {
@@ -79,7 +89,7 @@ public class FileManagerImpl<T extends FileType> implements FileManager {
     private boolean checkExtension(File file) {
         String[] fileSplitter = file.getPath().split("\\.");
         String fileExtension = fileSplitter[fileSplitter.length - 1];
-        for (ExtensionType ex : T.getExtensionTypes()) {
+        for (ExtensionType ex : extensionTypes) {
             if (fileExtension.equals(ex.getExtension())) {
                 return true;
             }
